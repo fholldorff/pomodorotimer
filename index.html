@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com; frame-src https://www.youtube.com; style-src 'self' 'unsafe-inline'; img-src 'self' https:; connect-src 'self' https://www.youtube.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="no-referrer">
     <title>Deep Focus Timer</title>
     <style>
         /* --- Das Design (Der Vibe) --- */
@@ -86,9 +90,9 @@
         <div id="timer">25:00</div>
 
         <div class="controls">
-            <button onclick="startTimer()">Start</button>
-            <button onclick="pauseTimer()">Pause</button>
-            <button onclick="resetTimer()">Reset</button>
+            <button id="start-btn">Start</button>
+            <button id="pause-btn">Pause</button>
+            <button id="reset-btn">Reset</button>
         </div>
 
         <div class="status" id="status-text">Bereit. Drücke Start für Musik & Fokus.</div>
@@ -181,12 +185,17 @@
             timeLeft = 25 * 60;
             updateDisplay();
             document.getElementById('status-text').innerText = "Bereit.";
-            
+
             // Musik stoppen (und zurückspulen wäre optional, aber Pause reicht)
             if(player && player.pauseVideo) {
                 player.pauseVideo();
             }
         }
+
+        // 4. Event Listeners hinzufügen (sicherer als inline onclick)
+        document.getElementById('start-btn').addEventListener('click', startTimer);
+        document.getElementById('pause-btn').addEventListener('click', pauseTimer);
+        document.getElementById('reset-btn').addEventListener('click', resetTimer);
     </script>
 </body>
 </html>
